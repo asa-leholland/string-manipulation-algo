@@ -32,16 +32,6 @@ def transform_to_combination_array(input: str) -> list[str]:
             if len(final_results) == 0:
                 final_results = choice_list
                 continue
-            # if len(choice_list) == 1:
-            #     for i, result in enumerate(final_results):
-            #         print('choice_list[0]', choice_list[0])
-            #         print('result', result)
-
-            #         print('final_results[i]', final_results[i])
-            #         final_results[i] = f"{result} {choice_list[0]}"
-            #     for result in final_results:
-            #         result = final_results.append(choice_list[0])
-            #     continue
 
             temp = []
             for result in final_results:
@@ -54,6 +44,7 @@ def transform_to_combination_array(input: str) -> list[str]:
     final_results = build_combinations(final_results, choice_lists)
 
     return final_results
+
 
 if __name__ == "__main__":
     transform_to_combination_array("tt OR tischtennis OR tischtenis schläger OR schlaeger")
