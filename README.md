@@ -1,6 +1,8 @@
 
 # Test Suite
 
+python3 -m virtualenv venv
+
 Open virtual env with `source venv/Scripts/activate`
 
 Run `pytest`
