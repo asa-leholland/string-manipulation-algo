@@ -1,38 +1,53 @@
+import contextlib
+
+
 def transform_to_combination_array(input: str) -> list[str]:
-    final_results: list[str] = []
 
-    words = input.split(" ")
-    lists_between_ors = []
-    temp = []
-    for word in words:
-        if word == "OR":
-            last_word = temp.pop()
-            lists_between_ors.append(temp)
-            temp = [last_word]
-        else:
-            temp.append(word)
-    lists_between_ors.append(temp)
+    def separate_into_choice_lists(input: str):
+        words = input.split(" ")
+        choice_lists = []
+        split_indices = []
+        for i, word in enumerate(words):
+            is_last_word = len(words) - i == 1
+            if is_last_word:
+                split_indices.append(i)
+                continue
+            with contextlib.suppress(IndexError):
+                is_not_or = word != "OR"
+                has_next_word = len(words) - i > 1
+                next_word_is_not_or = words[i + 1] != "OR"
+            if is_not_or and has_next_word and next_word_is_not_or:
+                split_indices.append(i)
+        index = 0
+        for i in split_indices:
+            temp = [word for word in words[index:i + 1] if word != "OR"]
+            index = i + 1
+            choice_lists.append(temp)
+        return [x for x in choice_lists if x]
 
-    for choice_list in lists_between_ors:
+    def build_combinations(final_results: list[str], choice_lists: list[list[str]]):
+        for choice_list in choice_lists:
+            if len(final_results) == 0:
+                final_results = choice_list
+                continue
+            if len(choice_list) == 1:
+                for result, i in enumerate(final_results):
+                    final_results[i] = f"{result} {choice_list[0]}"
+                for result in final_results:
+                    result = final_results.append(choice_list[0])
+                continue
 
-        if len(final_results) == 0:
-            final_results = choice_list
-            continue
-        if len(choice_list) == 1:
-            for result, i in enumerate(final_results):
-                final_results[i] = f"{result} {choice_list[0]}"
+            temp = []
             for result in final_results:
-                result = final_results.append(choice_list[0])
-            continue
+                temp.extend(f'{result} {choice}' for choice in choice_list)
+            final_results = temp
+        return final_results
 
-        temp = []
-        for choice in choice_list:
-            temp.extend(f'{result} {choice}' for result in final_results)
-        final_results = temp
+    final_results: list[str] = []
+    choice_lists = separate_into_choice_lists(input)
+    final_results = build_combinations(final_results, choice_lists)
 
     return final_results
 
-
-
 if __name__ == "__main__":
-    transform_to_combination_array("tischtennis schläger OR schlaeger")
+    transform_to_combination_array("tt OR tischtennis OR tischtenis schläger OR schlaeger")

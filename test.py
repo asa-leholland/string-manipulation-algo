@@ -17,3 +17,18 @@ def test_multiple_element_string():
     output = transform_to_combination_array(input_string)
 
     assert output == expected_output
+
+def test_multiple_ors():
+    input_string = "tt OR tischtennis OR tischtenis schläger OR schlaeger"
+    expected_output = [
+        "tt schläger",
+        "tt schlaeger",
+        "tischtennis schläger",
+        "tischtennis schlaeger",
+        "tischtenis schläger",
+        "tischtenis schlaeger",
+    ]
+
+    output = transform_to_combination_array(input_string)
+
+    assert output == expected_output
