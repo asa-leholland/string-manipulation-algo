@@ -2,6 +2,8 @@ import contextlib
 
 
 def transform_to_combination_array(input: str) -> list[str]:
+    if '"' in input:
+        return []
 
     def separate_into_choice_lists(input: str):
         words = input.split(" ")
@@ -30,12 +32,16 @@ def transform_to_combination_array(input: str) -> list[str]:
             if len(final_results) == 0:
                 final_results = choice_list
                 continue
-            if len(choice_list) == 1:
-                for result, i in enumerate(final_results):
-                    final_results[i] = f"{result} {choice_list[0]}"
-                for result in final_results:
-                    result = final_results.append(choice_list[0])
-                continue
+            # if len(choice_list) == 1:
+            #     for i, result in enumerate(final_results):
+            #         print('choice_list[0]', choice_list[0])
+            #         print('result', result)
+
+            #         print('final_results[i]', final_results[i])
+            #         final_results[i] = f"{result} {choice_list[0]}"
+            #     for result in final_results:
+            #         result = final_results.append(choice_list[0])
+            #     continue
 
             temp = []
             for result in final_results:
