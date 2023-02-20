@@ -2,7 +2,7 @@ import contextlib
 
 
 def transform_to_combination_array(input: str) -> list[str]:
-    if '"' in input:
+    if '"' in input and "OR" in input:
         return []
 
     def separate_into_choice_lists(input: str):
